@@ -1,5 +1,7 @@
 # Specify the base image
-FROM node:18
+FROM node:20-bookworm
+
+RUN apt-get update && apt-get install -y netcat-openbsd iputils-ping && rm -rf /var/apt/lists*
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -17,4 +19,4 @@ COPY . .
 EXPOSE 3000
 
 # Start the application
-CMD ["node", "index.js"]
+CMD ["/bin/bash", "-c", "node index.js"]

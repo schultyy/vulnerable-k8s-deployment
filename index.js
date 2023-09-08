@@ -14,6 +14,8 @@ app.get('/', (req, res) => {
 app.post('/ping', (req, res) => {
   const domain = req.body.domain;
 
+  console.log('Probing domain: ', domain);
+
   exec(`ping -c 4 ${domain}`, (error, stdout, stderr) => {
     if (error) {
       console.error(`Error: ${error.message}`);
@@ -26,6 +28,7 @@ app.post('/ping', (req, res) => {
     }
 
     const output = stdout;
+    console.log(output);
     res.send(output);
   });
 });

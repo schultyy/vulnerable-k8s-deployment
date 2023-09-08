@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: syringe-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: syringe
+  template:
+    metadata:
+      labels:
+        app: syringe
+    spec:
+      serviceAccountName: my-serviceaccount
+      containers:
+        - name: syringe
+          image: ghcr.io/schultyy/syringe:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: syringe-service
+spec:
+  selector:
+    app: syringe
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 3000
+  type: ClusterIP
+
